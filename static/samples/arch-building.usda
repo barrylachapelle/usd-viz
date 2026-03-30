@@ -1,0 +1,209 @@
+#usda 1.0
+(
+    doc = "Architecture — building with floors, rooms, walls, and material assignments"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Building"
+{
+    custom string project:name = "Riverside Tower"
+    custom string project:phase = "Schematic Design"
+
+    def Xform "Floor_01"
+    {
+        double3 xformOp:translate = (0.0, 0.0, 0.0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "Lobby"
+        {
+            def Mesh "Floor"
+            {
+                int[] faceVertexCounts = [4]
+                int[] faceVertexIndices = [0, 1, 2, 3]
+                point3f[] points = [(0,0,0), (12,0,0), (12,0,8), (0,0,8)]
+                rel material:binding = </Building/Materials/Marble>
+            }
+
+            def Mesh "Wall_North"
+            {
+                rel material:binding = </Building/Materials/Concrete>
+            }
+
+            def Mesh "Wall_South"
+            {
+                rel material:binding = </Building/Materials/Glass_Curtain>
+            }
+
+            def Xform "Reception"
+            {
+                double3 xformOp:translate = (6.0, 0.0, 2.0)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+
+                def Mesh "Desk"
+                {
+                    rel material:binding = </Building/Materials/Walnut>
+                }
+            }
+        }
+
+        def Xform "Mechanical"
+        {
+            def Mesh "HVAC_Unit"
+            {
+                rel material:binding = </Building/Materials/Steel>
+            }
+        }
+    }
+
+    def Xform "Floor_02"
+    {
+        double3 xformOp:translate = (0.0, 4.0, 0.0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Xform "Office_A"
+        {
+            def Mesh "Floor"
+            {
+                rel material:binding = </Building/Materials/Carpet>
+            }
+
+            def Mesh "Walls"
+            {
+                rel material:binding = </Building/Materials/Drywall>
+            }
+        }
+
+        def Xform "Office_B"
+        {
+            def Mesh "Floor"
+            {
+                rel material:binding = </Building/Materials/Carpet>
+            }
+
+            def Mesh "Walls"
+            {
+                rel material:binding = </Building/Materials/Drywall>
+            }
+        }
+
+        def Xform "Corridor"
+        {
+            def Mesh "Floor"
+            {
+                rel material:binding = </Building/Materials/Tile>
+            }
+        }
+    }
+
+    def Scope "Materials"
+    {
+        def Material "Marble"
+        {
+            token outputs:surface.connect = </Building/Materials/Marble/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.92, 0.9, 0.88)
+                float inputs:roughness = 0.15
+                float inputs:metallic = 0.0
+                token outputs:surface
+            }
+        }
+
+        def Material "Concrete"
+        {
+            token outputs:surface.connect = </Building/Materials/Concrete/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.6, 0.58, 0.55)
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "Glass_Curtain"
+        {
+            token outputs:surface.connect = </Building/Materials/Glass_Curtain/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.85, 0.9)
+                float inputs:roughness = 0.05
+                float inputs:opacity = 0.3
+                float inputs:ior = 1.5
+                token outputs:surface
+            }
+        }
+
+        def Material "Walnut"
+        {
+            token outputs:surface.connect = </Building/Materials/Walnut/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.35, 0.2, 0.12)
+                float inputs:roughness = 0.4
+                token outputs:surface
+            }
+        }
+
+        def Material "Steel"
+        {
+            token outputs:surface.connect = </Building/Materials/Steel/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.7, 0.72)
+                float inputs:roughness = 0.3
+                float inputs:metallic = 0.95
+                token outputs:surface
+            }
+        }
+
+        def Material "Carpet"
+        {
+            token outputs:surface.connect = </Building/Materials/Carpet/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.3, 0.32, 0.38)
+                float inputs:roughness = 0.95
+                token outputs:surface
+            }
+        }
+
+        def Material "Drywall"
+        {
+            token outputs:surface.connect = </Building/Materials/Drywall/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.88, 0.85)
+                float inputs:roughness = 0.9
+                token outputs:surface
+            }
+        }
+
+        def Material "Tile"
+        {
+            token outputs:surface.connect = </Building/Materials/Tile/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.75, 0.73, 0.7)
+                float inputs:roughness = 0.2
+                token outputs:surface
+            }
+        }
+    }
+}

@@ -1,0 +1,167 @@
+#usda 1.0
+(
+    doc = "Robotics — 6-DOF articulated arm with joint limits and end effector"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "RobotArm"
+{
+    custom string robot:manufacturer = "Universal Robotics"
+    custom string robot:model = "UR5e"
+    custom int robot:dof = 6
+
+    def Xform "Base"
+    {
+        double3 xformOp:translate = (0.0, 0.0, 0.0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Mesh "BaseMesh"
+        {
+            custom float physics:mass = 4.0
+            rel material:binding = </RobotArm/Materials/DarkMetal>
+        }
+
+        def Xform "Shoulder"
+        {
+            double3 xformOp:translate = (0.0, 0.0, 0.163)
+            float xformOp:rotateZ = 0.0
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZ"]
+            custom float joint:limitLower = -360.0
+            custom float joint:limitUpper = 360.0
+            custom float joint:maxVelocity = 180.0
+
+            def Mesh "ShoulderMesh"
+            {
+                custom float physics:mass = 3.7
+                rel material:binding = </RobotArm/Materials/LightMetal>
+            }
+
+            def Xform "UpperArm"
+            {
+                double3 xformOp:translate = (0.0, 0.138, 0.0)
+                float xformOp:rotateY = 0.0
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY"]
+                custom float joint:limitLower = -360.0
+                custom float joint:limitUpper = 360.0
+
+                def Mesh "UpperArmMesh"
+                {
+                    custom float physics:mass = 8.4
+                    rel material:binding = </RobotArm/Materials/LightMetal>
+                }
+
+                def Xform "Elbow"
+                {
+                    double3 xformOp:translate = (0.0, -0.131, 0.425)
+                    float xformOp:rotateY = 0.0
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY"]
+                    custom float joint:limitLower = -360.0
+                    custom float joint:limitUpper = 360.0
+
+                    def Mesh "ElbowMesh"
+                    {
+                        custom float physics:mass = 2.1
+                        rel material:binding = </RobotArm/Materials/DarkMetal>
+                    }
+
+                    def Xform "ForeArm"
+                    {
+                        double3 xformOp:translate = (0.0, 0.0, 0.392)
+                        float xformOp:rotateZ = 0.0
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZ"]
+                        custom float joint:limitLower = -360.0
+                        custom float joint:limitUpper = 360.0
+
+                        def Mesh "ForeArmMesh"
+                        {
+                            custom float physics:mass = 1.3
+                            rel material:binding = </RobotArm/Materials/LightMetal>
+                        }
+
+                        def Xform "Wrist"
+                        {
+                            double3 xformOp:translate = (0.0, 0.127, 0.0)
+                            float xformOp:rotateY = 0.0
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY"]
+                            custom float joint:limitLower = -360.0
+                            custom float joint:limitUpper = 360.0
+
+                            def Mesh "WristMesh"
+                            {
+                                custom float physics:mass = 1.3
+                                rel material:binding = </RobotArm/Materials/DarkMetal>
+                            }
+
+                            def Xform "Gripper"
+                            {
+                                double3 xformOp:translate = (0.0, 0.0, 0.1)
+                                float xformOp:rotateZ = 0.0
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZ"]
+                                custom float joint:limitLower = -180.0
+                                custom float joint:limitUpper = 180.0
+                                custom float gripper:maxForce = 50.0
+                                custom float gripper:openWidth = 0.085
+
+                                def Mesh "FingerLeft"
+                                {
+                                    rel material:binding = </RobotArm/Materials/Rubber>
+                                }
+
+                                def Mesh "FingerRight"
+                                {
+                                    rel material:binding = </RobotArm/Materials/Rubber>
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def Scope "Materials"
+    {
+        def Material "DarkMetal"
+        {
+            token outputs:surface.connect = </RobotArm/Materials/DarkMetal/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.12, 0.12, 0.14)
+                float inputs:roughness = 0.35
+                float inputs:metallic = 0.9
+                token outputs:surface
+            }
+        }
+
+        def Material "LightMetal"
+        {
+            token outputs:surface.connect = </RobotArm/Materials/LightMetal/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.65, 0.67, 0.7)
+                float inputs:roughness = 0.3
+                float inputs:metallic = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "Rubber"
+        {
+            token outputs:surface.connect = </RobotArm/Materials/Rubber/PBR.outputs:surface>
+
+            def Shader "PBR"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.08, 0.08, 0.08)
+                float inputs:roughness = 0.95
+                float inputs:metallic = 0.0
+                token outputs:surface
+            }
+        }
+    }
+}

@@ -1,0 +1,100 @@
+#usda 1.0
+(
+    doc = "VFX shot layout — multi-layer composition with lighting, characters, and environment"
+    metersPerUnit = 0.01
+    upAxis = "Y"
+    subLayers = [
+        @./lighting_v003.usda@,
+        @./characters.usda@
+    ]
+)
+
+def Xform "World"
+{
+    def Xform "Character"
+    {
+        double3 xformOp:translate = (2.4, 0.0, -1.2)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def Mesh "Body" (
+            references = @./hero_asset_v12.usda@</Root>
+        )
+        {
+            rel material:binding = </World/Materials/Hero_Final>
+        }
+
+        def Mesh "Hair"
+        {
+            int[] faceVertexCounts = [4, 4, 4]
+            int[] faceVertexIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            point3f[] points = [(0,0,0), (1,0,0), (1,1,0), (0,1,0)]
+            rel material:binding = </World/Materials/Hair_Shader>
+        }
+    }
+
+    def Xform "Environment" (
+        references = @./environment_v07.usda@</Root>
+    )
+    {
+        double3 xformOp:translate = (0.0, 0.0, 0.0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "Lighting"
+    {
+        def DomeLight "HDRI"
+        {
+            asset inputs:texture:file = @./hdri/studio.hdr@
+            float inputs:intensity = 1.0
+        }
+
+        def RectLight "KeyLight"
+        {
+            float inputs:intensity = 5000.0
+            float inputs:width = 200.0
+            float inputs:height = 150.0
+            double3 xformOp:translate = (300, 400, 200)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Scope "Materials"
+    {
+        def Material "Hero_Final"
+        {
+            token outputs:surface.connect = </World/Materials/Hero_Final/Shader.outputs:surface>
+
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.6, 0.5)
+                float inputs:roughness = 0.4
+                float inputs:metallic = 0.0
+                token outputs:surface
+            }
+        }
+
+        def Material "Hair_Shader"
+        {
+            token outputs:surface.connect = </World/Materials/Hair_Shader/Shader.outputs:surface>
+
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.1, 0.08)
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+    }
+}
+
+def Scope "Render"
+{
+    def RenderSettings "Settings"
+    {
+        int resolution:x = 1920
+        int resolution:y = 1080
+        float pixelAspectRatio = 1.0
+    }
+}

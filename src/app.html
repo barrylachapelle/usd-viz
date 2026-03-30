@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Primary -->
+		<title>usd-viz — Visualize USD Scene Graphs</title>
+		<meta name="description" content="Free, open-source tool for visualizing Universal Scene Description (USD) file structures as interactive node graphs. Drag in a .usda file and explore its hierarchy. Everything runs client-side — your files never leave your browser." />
+		<meta name="author" content="usd-viz" />
+		<meta name="theme-color" content="#0a0a0f" />
+		<meta name="keywords" content="USD, USDA, Universal Scene Description, node graph, visualization, VFX, pipeline, open source, client-side, scene graph, technical artist, pipeline TD" />
+		<meta name="robots" content="index, follow" />
+		<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+		<link rel="canonical" href="https://usdviz.com" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://usdviz.com" />
+		<meta property="og:title" content="usd-viz — Visualize USD Scene Graphs" />
+		<meta property="og:description" content="Free, open-source, client-side tool for visualizing .usda file structures as interactive node graphs. Your files never leave your browser." />
+		<meta property="og:image" content="https://usdviz.com/og-image.png" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="usd-viz — an interactive node graph visualization of a USD scene" />
+		<meta property="og:site_name" content="usd-viz" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="usd-viz — Visualize USD Scene Graphs" />
+		<meta name="twitter:description" content="Free, open-source, client-side tool for visualizing .usda file structures as interactive node graphs. Your files never leave your browser." />
+		<meta name="twitter:image" content="https://usdviz.com/og-image.png" />
+		<meta name="twitter:image:alt" content="usd-viz — an interactive node graph visualization of a USD scene" />
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/svg+xml" href="%sveltekit.assets%/favicon.svg" />
+
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebApplication",
+			"name": "usd-viz",
+			"url": "https://usdviz.com",
+			"description": "Free, open-source tool for visualizing Universal Scene Description (USD) file structures as interactive node graphs. Everything runs client-side.",
+			"applicationCategory": "DeveloperApplication",
+			"operatingSystem": "Any",
+			"browserRequirements": "Requires a modern web browser",
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "USD"
+			},
+			"featureList": [
+				"Drag and drop .usda file visualization",
+				"Interactive node graph",
+				"Scene hierarchy outline",
+				"Property inspector",
+				"Export to JSON, PNG, PDF",
+				"100% client-side — no server uploads"
+			],
+			"keywords": "USD, USDA, Universal Scene Description, node graph, visualization, VFX, pipeline, technical artist",
+			"isAccessibleForFree": true,
+			"license": "https://opensource.org/licenses/MIT"
+		}
+		</script>
+
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
